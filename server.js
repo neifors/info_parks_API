@@ -5,11 +5,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const htmlIndexRoute = "C:\\Users\\Isabel\\Documents\\FUTUREPROOF\\JS\\API\\My API\\template\\index.htm"
+
 const parkRoutes = require('./controllers/parks');
 app.use('/parks', parkRoutes);
 
 app.get('/', (req, res) => {
-   res.send('Hello there!');
+   res.sendFile(htmlIndexRoute);
 });
 
 app.post('/', (req, res) => {

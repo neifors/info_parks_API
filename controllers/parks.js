@@ -8,5 +8,16 @@ router.get('/', (req, res) => {
    res.send(parksData);
 });
 
+router.get('/:name/', (req,res) => {
+   const parkName = req.params.name;
+   const parks = Park.findByName(parkName);
+   res.send(parks)
+});
+
+router.get('/city/:city', (req,res) => {
+   const cityName = req.params.city;
+   const parks = Park.findByCity(cityName);
+   res.send(parks)
+});
 
 module.exports = router;

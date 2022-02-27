@@ -1,3 +1,4 @@
+const parks = require('../data')
 const parksData = require('../data')
 
 class Park {
@@ -17,13 +18,24 @@ class Park {
 
    static findByCity(city) {
       try {
-         const result = parksData.filter( (park) => park.city === city);
+         const result = parksData.filter( (park) => park.city.toLowerCase() === city.toLowerCase());
          const parks = result.map((park) => new Park(park));
          return parks;
       } catch (err) {
          throw new Error(`No parks registered for ${city}`)
       }
    }
+
+   static findByName(name) {
+      try {
+         const result = parksData.filter( (park) => park.name.toLowerCase() === name.toLowerCase());
+         const parks = result.map((park) => new Park(park));
+         return parks;
+      } catch (err) {
+         throw new Error(`No parks registered for ${name}`)
+      }
+   }
+
 
    static create(park) {
       const newPark = new Park(...park);
