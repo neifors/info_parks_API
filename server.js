@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
+app.set('view engine', 'ejs');
 app.use(cors());
 
 const htmlIndexRoute = "C:\\Users\\Isabel\\Documents\\FUTUREPROOF\\JS\\API\\My API\\template\\index.htm"

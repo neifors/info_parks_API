@@ -3,10 +3,17 @@ const router = express.Router();
 
 const Park = require('../models/parks');
 
-router.get('/', (req, res) => {
+// Returning a list which each element is an object Park (raw)
+/* router.get('/', (req, res) => {
    const parksData = Park.all;
    res.send(parksData);
-});
+}); */
+
+// Render a '.ejs' file to show a list of all the parks (just name) into an html
+router.get('/', (req, res) => {
+   const parksData = Park.all;
+   res.render('list.ejs', { parks : parksData})
+})
 
 router.get('/:name/', (req,res) => {
    const parkName = req.params.name;
