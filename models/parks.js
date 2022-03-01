@@ -1,4 +1,3 @@
-const parks = require('../data')
 const parksData = require('../data')
 
 class Park {
@@ -9,6 +8,7 @@ class Park {
       this.parking = data.parking
       this.toilets = data.toilets
       this.disableAccess = data.disableAccess
+      this.imgs = data.imgs
    }
 
    static get all() {

@@ -10,7 +10,8 @@ describe('Park model', () => {
          foodAndBeverage: "vegan kiosk with outdoor seating area",
          parking: false,
          toilets: true,
-         disableAccess: true
+         disableAccess: true,
+         imgs: []
    };
 
     it('should make an instance of a cat', () => {
@@ -22,6 +23,7 @@ describe('Park model', () => {
         expect(park.parking).toBe(false);
         expect(park.toilets).toBe(true);
         expect(park.disableAccess).toBe(true);
+        expect(park.imgs).toStrictEqual([]);
     });
 
     it('should return all parks', () => {

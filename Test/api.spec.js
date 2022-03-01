@@ -2,16 +2,11 @@ const request = require('supertest');
 // import server
 const server = require('../server');
 
+const parksData = require('../data');
+
 describe('API server', () => {
     let api;
-    let testPark = {
-      name: "Castle Park",
-      city: 'Bristol',
-      foodAndBeverage: "vegan kiosk with outdoor seating area",
-      parking: false,
-      toilets: true,
-      disableAccess: true
-};
+    
 
     beforeAll(() => {
         // start the server and store it in the api variable
@@ -38,75 +33,48 @@ describe('API server', () => {
         request(api)
             .get('/parks/St George')
             .expect(200)
-            .expect([{"name":"St George","city":"Bristol","foodAndBeverage":"café kiosk with outdoor seating area","parking":false,"toilets":true,"disableAccess":true}], done);
+            .expect([{name: "St George", city: "Bristol", foodAndBeverage: "The Bake Box with outdoor seating area", parking: false, toilets: true,  disableAccess: true, imgs: ["https://visitbristol.co.uk/imageresizer/?image=%2fdmsimgs%2fWheels%20area_1881941247.jpg&action=ProductDetail","https://live.staticflickr.com/4007/4328425741_39f3f427d0_b.jpg","http://www.bristolyogabliss.co.uk/wp-content/uploads/2011/08/IMG_0729.jpg"]}], done);
     });
 
     it('retrieves a park by name (lower case)', (done) => {
         request(api)
             .get('/parks/st george')
             .expect(200)
-            .expect([{"name":"St George","city":"Bristol","foodAndBeverage":"café kiosk with outdoor seating area","parking":false,"toilets":true,"disableAccess":true}], done);
+            .expect([{name: "St George", city: "Bristol", foodAndBeverage: "The Bake Box with outdoor seating area", parking: false, toilets: true,  disableAccess: true, imgs: ["https://visitbristol.co.uk/imageresizer/?image=%2fdmsimgs%2fWheels%20area_1881941247.jpg&action=ProductDetail","https://live.staticflickr.com/4007/4328425741_39f3f427d0_b.jpg","http://www.bristolyogabliss.co.uk/wp-content/uploads/2011/08/IMG_0729.jpg"]}], done);
     });
 
     it('retrieves a park by name (upper case)', (done) => {
         request(api)
             .get('/parks/ST GEORGE')
             .expect(200)
-            .expect([{"name":"St George","city":"Bristol","foodAndBeverage":"café kiosk with outdoor seating area","parking":false,"toilets":true,"disableAccess":true}], done);
+            .expect([{name: "St George", city: "Bristol", foodAndBeverage: "The Bake Box with outdoor seating area", parking: false, toilets: true,  disableAccess: true, imgs: ["https://visitbristol.co.uk/imageresizer/?image=%2fdmsimgs%2fWheels%20area_1881941247.jpg&action=ProductDetail","https://live.staticflickr.com/4007/4328425741_39f3f427d0_b.jpg","http://www.bristolyogabliss.co.uk/wp-content/uploads/2011/08/IMG_0729.jpg"]}], done);
     });
 
     it('retrieves a park by name (mixed lower and upper case)', (done) => {
         request(api)
             .get('/parks/sT gEOrge')
             .expect(200)
-            .expect([{"name":"St George","city":"Bristol","foodAndBeverage":"café kiosk with outdoor seating area","parking":false,"toilets":true,"disableAccess":true}], done);
+            .expect([{name: "St George", city: "Bristol", foodAndBeverage: "The Bake Box with outdoor seating area", parking: false, toilets: true,  disableAccess: true, imgs: ["https://visitbristol.co.uk/imageresizer/?image=%2fdmsimgs%2fWheels%20area_1881941247.jpg&action=ProductDetail","https://live.staticflickr.com/4007/4328425741_39f3f427d0_b.jpg","http://www.bristolyogabliss.co.uk/wp-content/uploads/2011/08/IMG_0729.jpg"]}], done);
     });
     
     it('retrieves a park by the exact name of the city', (done) => {
         request(api)
             .get('/parks/city/Bristol')
             .expect(200)
-            .expect([
-                {name: "St George", city: "Bristol", foodAndBeverage: "café kiosk with outdoor seating area", parking: false, toilets: true,  disableAccess: true},
-                {name: "Castle Park", city: "Bristol", foodAndBeverage: "vegan kiosk with outdoor seating area", parking: false, toilets: true,  disableAccess: true},
-                {name: "Victoria Park", city: "Bristol", foodAndBeverage: "Stuffed's café", parking: false, toilets: true,  disableAccess: true},
-                {name: "Arnos Vale Cementery", city: "Bristol", foodAndBeverage: "Atrium Café", parking: true, toilets: true,  disableAccess: true},
-                {name: "Brandon Hill Nature Park", city: "Bristol", foodAndBeverage: null, parking: false, toilets: true,  disableAccess: true},
-                {name: "Netham Park and Pavilion", city: "Bristol", foodAndBeverage: null, parking: true, toilets: true,  disableAccess: false},
-                {name: "St Agnes Park", city: "Bristol", foodAndBeverage: null, parking: false, toilets: false,  disableAccess: true},
-                {name: "The Downs", city: "Bristol", foodAndBeverage: "The Downs Cafe", parking: false, toilets: true,  disableAccess: true}
-             ], done);
+            .expect(parksData.filter( park => park.city === "Bristol"), done);
     });
     it('retrieves a park by name of the city (lower case)', (done) => {
         request(api)
             .get('/parks/city/bristol')
             .expect(200)
-            .expect([
-                {name: "St George", city: "Bristol", foodAndBeverage: "café kiosk with outdoor seating area", parking: false, toilets: true,  disableAccess: true},
-                {name: "Castle Park", city: "Bristol", foodAndBeverage: "vegan kiosk with outdoor seating area", parking: false, toilets: true,  disableAccess: true},
-                {name: "Victoria Park", city: "Bristol", foodAndBeverage: "Stuffed's café", parking: false, toilets: true,  disableAccess: true},
-                {name: "Arnos Vale Cementery", city: "Bristol", foodAndBeverage: "Atrium Café", parking: true, toilets: true,  disableAccess: true},
-                {name: "Brandon Hill Nature Park", city: "Bristol", foodAndBeverage: null, parking: false, toilets: true,  disableAccess: true},
-                {name: "Netham Park and Pavilion", city: "Bristol", foodAndBeverage: null, parking: true, toilets: true,  disableAccess: false},
-                {name: "St Agnes Park", city: "Bristol", foodAndBeverage: null, parking: false, toilets: false,  disableAccess: true},
-                {name: "The Downs", city: "Bristol", foodAndBeverage: "The Downs Cafe", parking: false, toilets: true,  disableAccess: true}
-             ], done);
+            .expect(parksData.filter( park => park.city === "Bristol"), done);
     });
 
     it('retrieves a park by name of the city (upper case)', (done) => {
         request(api)
             .get('/parks/city/BRISTOL')
             .expect(200)
-            .expect([
-                {name: "St George", city: "Bristol", foodAndBeverage: "café kiosk with outdoor seating area", parking: false, toilets: true,  disableAccess: true},
-                {name: "Castle Park", city: "Bristol", foodAndBeverage: "vegan kiosk with outdoor seating area", parking: false, toilets: true,  disableAccess: true},
-                {name: "Victoria Park", city: "Bristol", foodAndBeverage: "Stuffed's café", parking: false, toilets: true,  disableAccess: true},
-                {name: "Arnos Vale Cementery", city: "Bristol", foodAndBeverage: "Atrium Café", parking: true, toilets: true,  disableAccess: true},
-                {name: "Brandon Hill Nature Park", city: "Bristol", foodAndBeverage: null, parking: false, toilets: true,  disableAccess: true},
-                {name: "Netham Park and Pavilion", city: "Bristol", foodAndBeverage: null, parking: true, toilets: true,  disableAccess: false},
-                {name: "St Agnes Park", city: "Bristol", foodAndBeverage: null, parking: false, toilets: false,  disableAccess: true},
-                {name: "The Downs", city: "Bristol", foodAndBeverage: "The Downs Cafe", parking: false, toilets: true,  disableAccess: true}
-             ], done);
+            .expect(parksData.filter( park => park.city === "Bristol"), done);
     });
 
 
@@ -114,16 +82,7 @@ describe('API server', () => {
         request(api)
             .get('/parks/city/brISTOL')
             .expect(200)
-            .expect([
-                {name: "St George", city: "Bristol", foodAndBeverage: "café kiosk with outdoor seating area", parking: false, toilets: true,  disableAccess: true},
-                {name: "Castle Park", city: "Bristol", foodAndBeverage: "vegan kiosk with outdoor seating area", parking: false, toilets: true,  disableAccess: true},
-                {name: "Victoria Park", city: "Bristol", foodAndBeverage: "Stuffed's café", parking: false, toilets: true,  disableAccess: true},
-                {name: "Arnos Vale Cementery", city: "Bristol", foodAndBeverage: "Atrium Café", parking: true, toilets: true,  disableAccess: true},
-                {name: "Brandon Hill Nature Park", city: "Bristol", foodAndBeverage: null, parking: false, toilets: true,  disableAccess: true},
-                {name: "Netham Park and Pavilion", city: "Bristol", foodAndBeverage: null, parking: true, toilets: true,  disableAccess: false},
-                {name: "St Agnes Park", city: "Bristol", foodAndBeverage: null, parking: false, toilets: false,  disableAccess: true},
-                {name: "The Downs", city: "Bristol", foodAndBeverage: "The Downs Cafe", parking: false, toilets: true,  disableAccess: true}
-             ], done);
+            .expect(parksData.filter( park => park.city === "Bristol"), done);
     });
 
 
